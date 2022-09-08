@@ -1,5 +1,6 @@
 const promise = new Promise((resolve, reject) => {
   resolve ('hey')
+  reject ('no')
 })
 
 const cows = 9
