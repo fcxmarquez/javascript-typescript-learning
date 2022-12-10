@@ -3,8 +3,7 @@ const expectedSumFromAnArray = (arr, sum) => {
   const matchingValue = [];
 
   for (let i = 0; i < arrayLength; i++) {
-    console.log(i);
-    for (let j = i; j < arrayLength; j++) {
+    for (let j = i + 1; j < arrayLength; j++) {
       if (arr[i] + arr[j] === sum) {
         matchingValue.push([arr[i], arr[j]]);
       }
@@ -15,21 +14,28 @@ const expectedSumFromAnArray = (arr, sum) => {
 }; // O(n^2)
 
 const improvedExpectedSumFromAnArray = (arr, sum) => {
-  const arrayLength = arr.length;
+  const unorderedMap = {};
   const matchingValue = [];
 
-  for (let i = 0; i < arrayLength; i++) {
-    const diff = sum - arr[i];
-    if (arr.indexOf(diff) > -1) {
-      matchingValue.push([arr[i], diff]);
+  for (let i = 0; i < arr.length; i++) {
+    const currentElement = arr[i];
+    const difference = sum - currentElement;
+
+    if (unorderedMap[difference]) {
+      matchingValue.push([currentElement, difference]);
     }
+
+    unorderedMap[currentElement] = true;
   }
 
   console.log(matchingValue);
 }; // O(n)
 
+// {1: true, 2: true, 4: true, }
+
 const arr = [1, 2, 4, 4];
 const arr2 = [1, 2, 4, 5];
+const arr3 = [4, 2, 1, 5, 3, 1, 3]; // This array is not sorted, and the funcion above will not work
 
 expectedSumFromAnArray(arr, 6);
 
