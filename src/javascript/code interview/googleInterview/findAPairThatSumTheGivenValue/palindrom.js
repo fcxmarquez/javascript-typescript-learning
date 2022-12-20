@@ -1,0 +1,1 @@
+// Given a string, define if a sentence it's a palindrome or not.
