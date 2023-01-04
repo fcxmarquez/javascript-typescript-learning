@@ -6,22 +6,23 @@ const pangram = "The quick brown fox jumps over the lazy dog";
 
 function isPangram(sentence) {
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
-  const sentenceToLowerCase = sentence.toLowerCase()
   const map = {};
+  const object = {};
+  const sentenceToLowerCase = sentence.toLowerCase();
+  let status = false;
 
   for (let i = 0; i < alphabet.length; i++) {
-    map[alphabet[i]] = true;
+    map[sentenceToLowerCase[i]] = true;
   }
 
-  for (let j = 0; j < sentence.length; j++) {
-    const currentElement = sentence[j];
-
-    if (map[currentElement]) {
-      map[currentElement] = true;
+  for (let j = 0; j < alphabet.length; j++) {
+    const element = alphabet[j];
+    if (map[element]) {
+      object[element] = true;
     }
   }
 
-  console.log(map);
+  console.log(map, object);
 }
 
 isPangram(pangram);
