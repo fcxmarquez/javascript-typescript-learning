@@ -1,5 +1,5 @@
-// 1 --> 10 --> 5 --> 16
-
+// 1 <-- 10 --> 5 --> 16
+//       
 // let myLinkedList = {
 //   head: {
 //     value: 10,
@@ -17,13 +17,15 @@ class Node {
   constructor(value) {
     this.value = value;
     this.next = null;
+    this.before = null;
   }
 }
 
-class LinkedList {
+class DoubleLinkList {
   constructor(value) {
     this.head = {
       value: value,
+      before: null,
       next: null,
     };
     this.tail = this.head;
@@ -33,9 +35,11 @@ class LinkedList {
   //append
   append(value) {
     const newNode = new Node(value);
+    newNode.before = this.tail;
     this.tail.next = newNode;
     this.tail = newNode;
     this.length++;
+
     return this;
   }
 
@@ -43,9 +47,10 @@ class LinkedList {
   prepend(value) {
     const newNode = new Node(value);
     newNode.next = this.head;
-
+    this.head.before = newNode;
     this.head = newNode;
     this.length++;
+
     return this;
   }
 
@@ -71,6 +76,7 @@ class LinkedList {
     for (let i = 1; i < index; i++) {
       currentNode = currentNode.next;
     }
+
     return currentNode;
   }
 
@@ -83,7 +89,9 @@ class LinkedList {
     let currentNode = this.transverseToIndex(index);
     const followingNodes = currentNode.next;
     currentNode.next = newNode;
+    newNode.before = currentNode;
     newNode.next = followingNodes;
+    followingNodes.before = newNode;
     this.length++;
 
     return this;
@@ -91,18 +99,40 @@ class LinkedList {
 
   remove(index) {
     let currentNode = this.transverseToIndex(index);
-    const nodeToRemove = currentNode.next;
-    currentNode.next = nodeToRemove.next;
+    const followingNodes = currentNode.next.next;
+    currentNode.next = followingNodes;
+    followingNodes.before = currentNode;
     this.length--;
+
+    return this;
+  }
+
+  reverse() {
+    if(!this.head.next) return this;
+
+    let oldTail = this.tail;
+    this.tail = this.head;
+    this.head = oldTail;
+    let currentNode = this.head;
+
+    while (currentNode !== null) {
+      const prev = currentNode.before;
+      currentNode.before = currentNode.next;
+      currentNode.next = prev;
+      currentNode = currentNode.next;
+    }
+
     return this;
   }
 }
 
-const myLinkedList = new LinkedList(10);
+const myLinkedList = new DoubleLinkList(10);
 myLinkedList.append(5);
 myLinkedList.append(16);
 myLinkedList.prepend(1);
 myLinkedList.insert(1, 3);
 myLinkedList.remove(2);
 
+console.log("printList", myLinkedList.printList());
+myLinkedList.reverse();
 console.log("printList", myLinkedList.printList());
