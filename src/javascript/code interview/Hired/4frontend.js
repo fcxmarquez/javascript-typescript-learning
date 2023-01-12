@@ -1,3 +1,8 @@
+const testCase1 = [[0]]
+const testCase2 = [[1]]
+    
+
+
 const solution = (pot) => {
   const mapObj = [...pot];
   const lastRowIndex = mapObj.length - 1;
